@@ -1,4 +1,4 @@
-from flask import request, Flask, render_template, session, url_for, redirect
+from flask import request, Flask, render_template, session, url_for, redirect, flash
 from NameForm import NameForm
 from flask_bootstrap import Bootstrap
 
@@ -46,6 +46,7 @@ def name_form_redirect_on_form_submit():
     print(f'*** Before form submitted session: {session}')
     if name_form.validate_on_submit():
         session['name'] = name_form.name.data
+
         session['gender'] = name_form.gender.data
         session['email'] = name_form.email.data
         return redirect(url_for('display_user_info'))
@@ -58,5 +59,3 @@ def name_form_redirect_on_form_submit():
 def display_user_info():
     print(f'*** *** *** user-info page- request.session: {session}')
     return render_template('user.html', my_session=session)
-
-
