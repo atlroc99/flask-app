@@ -81,3 +81,18 @@ def py_dictionary_deconstruction(person_dict):
     print('====> print dictionary keys:', list(person_dict.keys()))
     username, gender, age, location, is_active = [person_dict[key] for key in list(person_dict.keys())]
     print(f'username: {username}, location: {location},  gender: {gender}, age : {age} , is_active: {is_active}')
+
+
+@app.route('/get-json-data', methods=['POST'])
+def accept_json_data():
+    data = request.get_json()
+    name, location, age, gender, is_active, countries = [data[key] for key in list(data.keys()]
+
+    return jsonify({
+        'name': name,
+        'location': location,
+        'age': age,
+        'gender': gender,
+        'is_active': is_active,
+        'countries': countries
+    })
