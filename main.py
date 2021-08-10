@@ -1,4 +1,5 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, flash, redirect
+from werkzeug.wrappers import request
 from forms import RegistrationForm, LoginForm
 
 app = Flask(__name__, template_folder='templates')
@@ -47,10 +48,17 @@ def about():
     return render_template('about.html', title="About")
 
 
-@app.route('/register', methods=['POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     registration_form = RegistrationForm()
-    return render_template('register.html', title="Registration", registration_form=registration_form)
+
+    print(f'*** inside regsiter {registration_form.username.data}')
+
+    if registration_form.validate_on_submit():
+        print(f'*** user has been creatd for {registration_form.username.data}')
+        flash(f'Account has been created for user {registration_form.username.data}!', category='success')
+        return redirect(url_for('home'))
+    return render_template('register.html', title="Registration", form=registration_form)
 
 
 @app.route('/login')
