@@ -1,98 +1,39 @@
-from flask import Flask, request, jsonify, redirect, url_for, session
+from flask import Flask, render_template, url_for
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'SUPER-SECRET-KEY'
+app = Flask(__name__, template_folder='templates')
 
+posts = [
+    {
+        'author': 'Mohammad Zaman',
+        'title': 'learn python',
+        'content': 'Learning python the hard way',
+        'created_on': 'April 21, 2021',
+        'difficulty_level': 'intermediate'
+    },
+    {
+        'author': 'Joe Shaperd',
+        'title': 'learn Java',
+        'content': 'Learning Java the hard way',
+        'created_on': 'April 24, 2022',
+        'difficulty_level': 'intermediate'
+    },
+    {
+        'author': 'James Dean',
+        'title': 'Learn Kubernetes',
+        'content': 'Learning K8S the hard way',
+        'created_on': 'April 21, 2021',
+        'difficulty_level': 'intermediate'
+    },
 
-@app.route('/json')
-def get_json():
-    print(f'print session: {session}')
-    person_data = session.get('person_data')
-    person = {
-        'name': person_data.get('username'),
-        'location': person_data.get('location'),
-        'age': person_data.get('age'),
-        'gender': person_data.get('gender'),
-        'isActive': person_data.get('isActive')
-    }
-    print(f'person built form session data: {person}')
-    py_dictionary_deconstruction(person)
-    return jsonify(person)
-
-
-@app.route('/query-person')
-def using_query_string():
-    name = request.args.get('name')
-    gender = request.args.get('gender')
-    age = request.args.get('age')
-    is_active = request.args.get('isActive') in ['1', 'true', 'True']
-    print(f'Type of is_active {type(is_active)} : value: {is_active}')
-    print(f'bool(is_active): {bool(is_active)}')
-    person_dict = {
-        'name': name,
-        'age': age,
-        'gender': gender,
-        'isActive': is_active
-    }
-
-    return jsonify(person_dict)
+]
 
 
-@app.route('/user-form')
-def test_form():
-    user_form = '''
-        <form method="POST", action="/process">
-            Username: <input type="text" name="username"/>
-            Location: <input type="text" name="location"/>
-            Age: <input type="text" name="age"/>
-            Gender: <input type="text" name="gender"/>
-            <label for="isActive">Is active</labele>
-            <select name="isActive" id="isActive">
-                <option value="True">True</option>
-                <option value="False">False</option>
-            </select>
-            <input type="submit" value="submit">
-        </form>
-    '''
-    return user_form
+@app.route('/')
+@app.route('/home')
+def home():
+    return render_template('home.html', title="Home", posts=posts)
 
 
-@app.route('/process', methods=["POST"])
-def process():
-    print('Processing form: ')
-    print(request)
-    print(request.form)
-    print(f"username: {request.form['username']}")
-
-    person_dict = {
-        'username': request.form.get('username'),
-        'gender': request.form.get('gender'),
-        'age': request.form.get('age'),
-        'location': request.form.get('location'),
-        'isActive': request.form.get('isActive'),
-    }
-    print(f'person_dict: {person_dict}')
-    session['person_data'] = person_dict
-    return redirect(url_for('get_json'))
-
-
-# http://www.seanbehan.com/destructuring-dictionaries-in-python/
-def py_dictionary_deconstruction(person_dict):
-    print('====> print dictionary keys:', list(person_dict.keys()))
-    username, gender, age, location, is_active = [person_dict[key] for key in list(person_dict.keys())]
-    print(f'username: {username}, location: {location},  gender: {gender}, age : {age} , is_active: {is_active}')
-
-
-@app.route('/get-json-data', methods=['POST'])
-def accept_json_data():
-    data = request.get_json()
-    name, location, age, gender, is_active, countries = [data[key] for key in list(data.keys()]
-
-    return jsonify({
-        'name': name,
-        'location': location,
-        'age': age,
-        'gender': gender,
-        'is_active': is_active,
-        'countries': countries
-    })
+@app.route('/about')
+def about():
+    return render_template('about.html', title="About")
