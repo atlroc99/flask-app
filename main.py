@@ -63,5 +63,5 @@ def register():
 
 @app.route('/login')
 def login():
-    login_form = RegistrationForm()
-    return render_template('login.html', title="Registration", form=login_form)
+    login_form = LoginForm()
+    return render_template('login.html', title="Login", form=login_form)

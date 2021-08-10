@@ -11,6 +11,19 @@ from wtforms.validators import DataRequired, Email, EqualTo, Length
     
     Form Fields Validator: 
     username - StringField : char between 2-20 char, not empty
+    email - StringField validator = DataRequired, Email
+    password - PasswordField, validator = DataRequired
+    confirm_password - PasswordField validator = DataRequired, EqualTo('password') 
+    remember_me = BooleanField 
+
+    We also need a secret key to work the form -> secret key helps preventing
+    modifying cookies, cross site forgery, etc
+
+    in the python interpretor 
+    import secrets
+     secrets.token_hex(32)
+    'dd6b2df8ca878fabec08548731962fa581dfce57118803f55cf3b56e26537b86'
+
 '''
 
 
@@ -43,9 +56,9 @@ class LoginForm(FlaskForm):
         validators=[DataRequired(), Email()]
     )
 
-    passwordd = PasswordField(label='password', validators=[DataRequired()])
+    password = PasswordField(label='password', validators=[DataRequired()])
 
     # we need a remember me check box field - true or false
-    remember_user = BooleanField(label='Remember me')
+    remember = BooleanField(label='Remember me')
 
-    login = SubmitField(label='Login')
+    submit = SubmitField(label='Login')
