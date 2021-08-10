@@ -5,26 +5,32 @@ app = Flask(__name__, template_folder='templates')
 posts = [
     {
         'author': 'Mohammad Zaman',
-        'title': 'learn python',
+        'title': 'Learn Python 3.8+',
         'content': 'Learning python the hard way',
-        'created_on': 'April 21, 2021',
+        'date_posted': 'April 21, 2021',
         'difficulty_level': 'intermediate'
     },
     {
         'author': 'Joe Shaperd',
-        'title': 'learn Java',
+        'title': 'Microservices with springboot',
         'content': 'Learning Java the hard way',
-        'created_on': 'April 24, 2022',
+        'date_posted': 'April 24, 2022',
         'difficulty_level': 'intermediate'
     },
     {
         'author': 'James Dean',
-        'title': 'Learn Kubernetes',
+        'title': 'Learn Kubernetes :  K8S',
         'content': 'Learning K8S the hard way',
-        'created_on': 'April 21, 2021',
+        'date_posted': 'April 21, 2021',
         'difficulty_level': 'intermediate'
     },
-
+      {
+        'author': 'Neal Hundson',
+        'title': 'AWS API Gateway and Lambda Function',
+        'content': 'Build Nano-services with AWS API Gateway and Lambda Function',
+        'date_posted': 'April 21, 2021',
+        'difficulty_level': 'Advance'
+    }
 ]
 
 
