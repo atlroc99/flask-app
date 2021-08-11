@@ -55,13 +55,20 @@ def register():
     print(f'*** inside regsiter {registration_form.username.data}')
 
     if registration_form.validate_on_submit():
-        print(f'*** user has been creatd for {registration_form.username.data}')
-        flash(f'Account has been created for user {registration_form.username.data}!', category='success')
+        print(
+            f'*** user has been creatd for {registration_form.username.data}')
+        flash(
+            f'Account has been created for user {registration_form.username.data}!', category='success')
         return redirect(url_for('home'))
     return render_template('register.html', title="Registration", form=registration_form)
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POSt'])
 def login():
     login_form = LoginForm()
+    if login_form.validate_on_submit():
+        if login_form.email.data == 'test@email.com' and login_form.password.data == 'password':
+            flash(f'User {login_form.email.data} has successfully logged in.', category='success')
+            return redirect(url_for('home'))
+
     return render_template('login.html', title="Login", form=login_form)
